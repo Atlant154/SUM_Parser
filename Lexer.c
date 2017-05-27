@@ -153,7 +153,7 @@ int convert_file(char* content, char** content_string, int file_length)
 	char *p;
 	int content_position;
 	int p_position;
-	//We allocate memory under a line(filtered). 
+	//We allocate memory under a line size. 
 	p = (char*)malloc(file_length);
 	//If the memory is not allocated, return the error.
 	if (NULL == p)
@@ -170,21 +170,25 @@ int convert_file(char* content, char** content_string, int file_length)
 			p[p_position] = content[content_position];
 			p_position++;
 		}
-
 	}
+	//We allocate memory under a line(filtered).
 	*content_string = (char*)malloc(p_position + 1);
+	//If the memory is not allocated, return the error.
 	if (NULL == *content_string)
 	{
 		free(p);
 		return 0;
 	}
-
+	//Copy memory block from (p) to (content string) p_position elements.
 	memmove(*content_string, p, p_position);
+	//Add '\0' into content string.
 	(*content_string)[p_position] = '\0';
+	//Remove P.
 	free(p);
 	return 1;
 }
 
+//(!)
 void print_tree(FILE* f, AST_tree* root, int count)
 {
 	if (NULL != root)
@@ -226,6 +230,7 @@ void print_tree(FILE* f, AST_tree* root, int count)
 	}
 }
 
+//(!)
 int print_tree_to_XML(char* file_name, AST_tree* root)
 {
 	FILE* f = s_fopen(file_name, "w");
@@ -240,6 +245,7 @@ int print_tree_to_XML(char* file_name, AST_tree* root)
 	return 1;
 }
 
+//(!)
 int parse_rest_null(lexeme_list** position, int* sintax_error, AST_tree** node)
 {
 	return 1;
