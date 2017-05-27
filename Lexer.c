@@ -188,7 +188,10 @@ int convert_file(char* content, char** content_string, int file_length)
 	return 1;
 }
 
-//(!)
+/*
+Print function.
+Print the AST tree to a file.
+*/
 void print_tree(FILE* f, AST_tree* root, int count)
 {
 	if (NULL != root)
@@ -230,40 +233,51 @@ void print_tree(FILE* f, AST_tree* root, int count)
 	}
 }
 
-//(!)
+/*
+Print function.
+Use print_tree function.
+*/
 int print_tree_to_XML(char* file_name, AST_tree* root)
 {
-	FILE* f = s_fopen(file_name, "w");
+	//Open file.
+	FILE* f = s_fopen(file_name, "Out_File");
+	//If we can not open the file -> return an error.
 	if (NULL == f)
 	{
 		perror("fopen");
 		return 0;
 	}
+	//Print technical info(XML Version).
 	fprintf(f, "<?xml version=\"1.0\"?>\n");
+	//Call the function print_tree.
 	print_tree(f, root, 0);
+	//Close file.
 	fclose(f);
 	return 1;
 }
 
-//(!)
+//Spigot - Function.
 int parse_rest_null(lexeme_list** position, int* sintax_error, AST_tree** node)
 {
 	return 1;
 }
 
+
 int parse_rest(lexeme_list** position, int* sintax_error, AST_tree** node)
 {
+	//If can't create node -> return an error.
 	if (!create_node(AST_REST, NULL, node))
 	{
 		*sintax_error = 0;
 		return 0;
 	}
+	//If on position not operation -> return an error.
 	if (((*position)->type) != OPERATION)
 	{
 		*sintax_error = 1;
 		return 0;
 	}
-
+	//
 	if (!create_node(AST_OPERATION, (*position)->value, &((*node)->left)))
 	{
 		*sintax_error = 0;
