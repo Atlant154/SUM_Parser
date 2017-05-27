@@ -1,4 +1,4 @@
-#include <stdlib.h>
+﻿#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -262,7 +262,9 @@ int parse_rest_null(lexeme_list** position, int* sintax_error, AST_tree** node)
 	return 1;
 }
 
-
+/*
+Function of analyzing the correctness of rest characters in a tree.
+*/
 int parse_rest(lexeme_list** position, int* sintax_error, AST_tree** node)
 {
 	//If can't create node -> return an error.
@@ -277,43 +279,48 @@ int parse_rest(lexeme_list** position, int* sintax_error, AST_tree** node)
 		*sintax_error = 1;
 		return 0;
 	}
-	//
+	//If can't create node -> return an error.
 	if (!create_node(AST_OPERATION, (*position)->value, &((*node)->left)))
 	{
 		*sintax_error = 0;
 		return 0;
 	}
+	//Сonsider the following position.
 	(*position) = (*position)->next;
-
+	//Call parse_sum in right(!) branch
 	return parse_sum(position, sintax_error, &((*node)->right));
 }
 
+/*
+Function of analyzing the correctness of numbers characters in a tree.
+*/
 int parse_sum(lexeme_list** position, int* sintax_error, AST_tree** node)
 {
+	//If can't create node -> return an error.
 	if (!create_node(AST_SUM, NULL, node))
 	{
 		*sintax_error = 0;
 		return 0;
 	}
-
+	//If on position not number -> return an error.
 	if (((*position)->type) != NUMBER)
 	{
 		*sintax_error = 1;
 		return 0;
 	}
-
+	//If can't create node -> return an error.
 	if (!create_node(AST_NUMBER, (*position)->value, &((*node)->left)))
 	{
 		*sintax_error = 0;
 		return 0;
 	}
+	//Сonsider the following position.
 	(*position) = (*position)->next;
-
 	if ((*position) == NULL)
 	{
 		return(parse_rest_null(position, sintax_error, &((*node)->right)));
 	}
-
+	//If position type is operation -> //Call parse_rest in right(!) branch
 	if (((*position)->type) == OPERATION)
 	{
 		return(parse_rest(position, sintax_error, &((*node)->right)));
