@@ -57,10 +57,13 @@ int main(int argc, char* argv[])
 	{
 		if (read_file(argv[1], &content, &file_length))
 		{
+			//Removing non-printable characters.
 			convert_file(content, &content_string, file_length);
+			//Conducting lexical analysis.
 			if (lexical_analyzer(content_string, &head, &tail))
 			{
 				copy_head = head;
+				//Initiation of verification.
 				if (parse_sum(&copy_head, &sinerror, &root))
 				{
 
@@ -81,13 +84,14 @@ int main(int argc, char* argv[])
 						printf("Programm error.");
 					}
 				}
+				//Remove AST-tree.
 				free_ast_tree(root);
-
 			}
 			else
 			{
 				printf("Error executing the lexical_analyzer");
 			}
+			//Remove List.
 			destroy_list(head, tail);
 			free(content_string);
 			free(content);
