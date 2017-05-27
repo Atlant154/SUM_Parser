@@ -104,7 +104,7 @@ int read_file(char* file_name, char** content, int* file_length)
 /*
 Lexical analyzer. Split into numbers and operation.
 */
-int lexical_analaiser(char* content, lexeme_list** head, lexeme_list** tail)
+int lexical_analyzer(char* content, lexeme_list** head, lexeme_list** tail)
 {
 	//Start position for insert_lexeme function.
 	int start;

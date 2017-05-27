@@ -47,7 +47,7 @@ typedef struct tree
 
 int insert_lexeme(lexeme_list** head, lexeme_list** tail, lexeme_type type, char* content, int start, int end);
 int read_file(char* file_name, char** content, int* file_length);
-int lexical_analaiser(char* content, lexeme_list** head, lexeme_list** tail);
+int lexical_analyzer(char* content, lexeme_list** head, lexeme_list** tail);
 int convert_file(char* content, char** content_string, int file_length);
 void print_tree(FILE* f, AST_tree* root, int count);
 int print_tree_to_XML(char* file_name, AST_tree* root);

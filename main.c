@@ -6,6 +6,9 @@
 #define CHUNK_SIZE 1000
 #define spaces 4
 
+/*
+We pass from the beginning to the end of the list, releasing the memory of each element.
+*/
 void destroy_list(lexeme_list* head, lexeme_list* tail)
 {
 	lexeme_list* p;
@@ -20,6 +23,10 @@ void destroy_list(lexeme_list* head, lexeme_list* tail)
 	}
 }
 
+/*
+The recursive function of removing the AST tree. 
+We pass along the branch and clear the memory.
+*/
 void free_ast_tree(AST_tree* root)
 {
 	if (NULL != root)
@@ -28,7 +35,6 @@ void free_ast_tree(AST_tree* root)
 		free_ast_tree(root->right);
 		free(root->value);
 		free(root);
-
 	}
 }
 
@@ -52,7 +58,7 @@ int main(int argc, char* argv[])
 		if (read_file(argv[1], &content, &file_length))
 		{
 			convert_file(content, &content_string, file_length);
-			if (lexical_analaiser(content_string, &head, &tail))
+			if (lexical_analyzer(content_string, &head, &tail))
 			{
 				copy_head = head;
 				if (parse_sum(&copy_head, &sinerror, &root))
@@ -60,7 +66,7 @@ int main(int argc, char* argv[])
 
 					if (!(print_tree_to_XML(argv[2], root)))
 					{
-						printf("file not write");
+						printf("File not write.");
 					}
 
 				}
@@ -68,11 +74,11 @@ int main(int argc, char* argv[])
 				{
 					if (sinerror)
 					{
-						printf("sintaxis error");
+						printf("Syntaxis error.");
 					}
 					else
 					{
-						printf("programm error");
+						printf("Programm error.");
 					}
 				}
 				free_ast_tree(root);
@@ -80,7 +86,7 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				printf("error lexical_analaxer");
+				printf("Error executing the lexical_analyzer");
 			}
 			destroy_list(head, tail);
 			free(content_string);
@@ -94,7 +100,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		printf("Wrong number of arguments");
+		printf("Wrong number of arguments.");
 	}
 }
 
