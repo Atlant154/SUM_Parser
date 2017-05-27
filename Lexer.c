@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "lexi.h"
+#include "Lexer.h"
 #include "AST_TREE.h"
 #define CHUNK_SIZE 1000
 #define SPACES 4
@@ -58,12 +58,16 @@ int insert_lexeme(lexeme_list** head, lexeme_list** tail, lexeme_type type, char
 	return 1;
 }
 
+/*
+
+*/
 int read_file(char* file_name, char** content, int* file_length)
 {
 	int allocated = 0;
 	char* q = NULL;
 	char* p = NULL;
 	int numread = 0;
+	//(!)s_fopen(!)
 	FILE *f = s_fopen(file_name, "r");
 	if (NULL == f)
 	{

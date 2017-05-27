@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "lexi.h"
+#include "Lexer.h"
 #define CHUNK_SIZE 1000
 #define spaces 4
 
