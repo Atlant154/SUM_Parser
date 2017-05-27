@@ -59,7 +59,7 @@ int insert_lexeme(lexeme_list** head, lexeme_list** tail, lexeme_type type, char
 }
 
 /*
-
+Function reads the expression from the file.
 */
 int read_file(char* file_name, char** content, int* file_length)
 {
@@ -101,32 +101,38 @@ int read_file(char* file_name, char** content, int* file_length)
 	return 1;
 }
 
+
 int lexical_analaiser(char* content, lexeme_list** head, lexeme_list** tail)
 {
+	//Start position for insert_lexeme function.
 	int start;
+	//Current position of analysis.
 	int position = 0;
+	//Error flag.
 	int error = 0;
+	//Define head and tail as NULL
 	*head = NULL;
 	*tail = NULL;
+	//Until we reach '\0'.
 	while ('\0' != content[position])
 	{
+		//If current value is digit
 		if (isdigit(content[position]))
 		{
+			//We learn the initial and final position of the number.
 			start = position;
 			while (isdigit(content[position]))
-			{
 				position++;
-			}
+			//Insert a number lexeme, using the start and end values.
 			insert_lexeme(head, tail, NUMBER, content, start, position);
 		}
-
-		else       if (('+' == content[position]) || ('-' == content[position]))
+		if (('+' == content[position]) || ('-' == content[position]))
 		{
 			start = position;
 			position++;
 			insert_lexeme(head, tail, OPERATION, content, start, position);
 		}
-		else
+		if(!(isdigit(content[position])) && !(('+' == content[position]) || ('-' == content[position])))
 		{
 			error = 1;
 			break;
