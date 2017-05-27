@@ -101,7 +101,9 @@ int read_file(char* file_name, char** content, int* file_length)
 	return 1;
 }
 
-
+/*
+Lexical analyzer. Split into numbers and operation.
+*/
 int lexical_analaiser(char* content, lexeme_list** head, lexeme_list** tail)
 {
 	//Start position for insert_lexeme function.
@@ -132,6 +134,7 @@ int lexical_analaiser(char* content, lexeme_list** head, lexeme_list** tail)
 			position++;
 			insert_lexeme(head, tail, OPERATION, content, start, position);
 		}
+		//If value not a digir and not operation -> return an error.
 		if(!(isdigit(content[position])) && !(('+' == content[position]) || ('-' == content[position])))
 		{
 			error = 1;
@@ -141,20 +144,27 @@ int lexical_analaiser(char* content, lexeme_list** head, lexeme_list** tail)
 	return (!error);
 }
 
+/*
+Function remove nonprinting characters from the string.
+*/
 int convert_file(char* content, char** content_string, int file_length)
 {
+	//The variable p stores the value of the string(filtered).
 	char *p;
 	int content_position;
 	int p_position;
+	//We allocate memory under a line(filtered). 
 	p = (char*)malloc(file_length);
+	//If the memory is not allocated, return the error.
 	if (NULL == p)
 	{
 		return 0;
 	}
-
+	//Define start position as 0.
 	p_position = 0;
 	for (content_position = 0; content_position < file_length; content_position++)
 	{
+		//If the value of the printed output is put in a string(filtered).
 		if (isgraph(content[content_position]))
 		{
 			p[p_position] = content[content_position];
